@@ -1,0 +1,59 @@
+<!--
+    - Policies are applied in the order they appear.
+    - Position <base/> inside a section to inherit policies from the outer scope.
+    - Comments within policies are not preserved.
+-->
+<!-- Add policies as children to the <inbound>, <outbound>, <backend>, and <on-error> elements -->
+<policies>
+    <!-- Throttle, authorize, validate, cache, or transform the requests -->
+    <inbound>
+        <base />
+        <set-header name="Authorization" exists-action="override">
+            <value>Bearer {{openai-api-key}}</value>
+        </set-header>
+        <rewrite-uri template="v1/chat/completions" />
+        <set-backend-service base-url="https://api.openai.com" />
+        <set-header name="content-type" exists-action="override">
+            <value>application/json</value>
+        </set-header>
+        <set-variable name="winner" value="@((string)context.Request.Body.As<JObject>()["winner"])" />
+        <choose>
+            <when condition="@((string)context.Variables["winner"] == "player")">
+                <set-variable name="game_over_prompt" value="The player just won the game." />
+            </when>
+            <when condition="@((string)context.Variables["winner"] == "opponent")">
+                <set-variable name="game_over_prompt" value="You just won the game." />
+            </when>
+            <when condition="@((string)context.Variables["winner"] == "none")">
+                <set-variable name="game_over_prompt" value="The game was a tie." />
+            </when>
+        </choose>
+        <set-body template="liquid">
+        {
+            "model": "gpt-4o-mini",
+            "messages": [
+                {
+                    "content": "You are a toxic video game player. Keep your responses short and do not ask any non-rhetorical questions from the player. We have never played a game of tic-tac-toe before. The user is X and you are O. Make fun of the user for every move they make. Don't make any moves.",
+                    "role": "system"
+                },
+                {
+                    "role": "system",
+                    "content": "{{context.Variables.game_over_prompt}}"
+                }
+            ]
+        }
+        </set-body>
+    </inbound>
+    <!-- Control if and how the requests are forwarded to services  -->
+    <backend>
+        <base />
+    </backend>
+    <!-- Customize the responses -->
+    <outbound>
+        <base />
+    </outbound>
+    <!-- Handle exceptions and customize error responses  -->
+    <on-error>
+        <base />
+    </on-error>
+</policies>
