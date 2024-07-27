@@ -1,0 +1,173 @@
+[gd_scene load_steps=5 format=3 uid="uid://ciwetwkx86x1q"]
+
+[ext_resource type="PackedScene" uid="uid://cxxwteohu4o1p" path="res://scenes/smack_talker.tscn" id="1_6bpdu"]
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_15d8u"]
+[ext_resource type="Script" path="res://scripts/cell.gd" id="2_cgk7j"]
+[ext_resource type="Script" path="res://scripts/smack_talker_output.gd" id="3_8rerj"]
+
+[node name="smack_talk_tictactoe" type="Node"]
+script = ExtResource("1_15d8u")
+
+[node name="smack_talker_area" type="Control" parent="."]
+layout_mode = 3
+anchor_left = 0.65
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="background" type="ColorRect" parent="smack_talker_area"]
+layout_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="smack_talker_viewport_container" type="SubViewportContainer" parent="smack_talker_area"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.75
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="smack_talker_viewport" type="SubViewport" parent="smack_talker_area/smack_talker_viewport_container"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(403, 486)
+render_target_update_mode = 4
+
+[node name="smack_talker" parent="smack_talker_area/smack_talker_viewport_container/smack_talker_viewport" instance=ExtResource("1_6bpdu")]
+position = Vector2(200, 300)
+scale = Vector2(0.35, 0.35)
+
+[node name="smack_talker_output" type="Label" parent="smack_talker_area"]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.75
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+clip_text = true
+script = ExtResource("3_8rerj")
+
+[node name="tictactoe_area" type="Control" parent="."]
+layout_mode = 3
+anchor_right = 0.65
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="background" type="ColorRect" parent="tictactoe_area"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.743042, 0.728789, 0.735735, 1)
+
+[node name="rows" type="VBoxContainer" parent="tictactoe_area"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="row1" type="HBoxContainer" parent="tictactoe_area/rows"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="cell1_1" type="Button" parent="tictactoe_area/rows/row1"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_cgk7j")
+
+[node name="cell1_2" type="Button" parent="tictactoe_area/rows/row1"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_cgk7j")
+
+[node name="cell1_3" type="Button" parent="tictactoe_area/rows/row1"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_cgk7j")
+
+[node name="row2" type="HBoxContainer" parent="tictactoe_area/rows"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="cell2_1" type="Button" parent="tictactoe_area/rows/row2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_cgk7j")
+
+[node name="cell2_2" type="Button" parent="tictactoe_area/rows/row2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_cgk7j")
+
+[node name="cell2_3" type="Button" parent="tictactoe_area/rows/row2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_cgk7j")
+
+[node name="row3" type="HBoxContainer" parent="tictactoe_area/rows"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="cell3_1" type="Button" parent="tictactoe_area/rows/row3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_cgk7j")
+
+[node name="cell3_2" type="Button" parent="tictactoe_area/rows/row3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_cgk7j")
+
+[node name="cell3_3" type="Button" parent="tictactoe_area/rows/row3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_cgk7j")
+
+[connection signal="opponent_selected_cell" from="." to="smack_talker_area/smack_talker_viewport_container/smack_talker_viewport/smack_talker" method="_on_opponent_selected_cell"]
+[connection signal="opponent_won" from="." to="smack_talker_area/smack_talker_viewport_container/smack_talker_viewport/smack_talker" method="_on_opponent_won"]
+[connection signal="player_selected_cell" from="." to="smack_talker_area/smack_talker_viewport_container/smack_talker_viewport/smack_talker" method="_on_player_selected_cell"]
+[connection signal="player_won" from="." to="smack_talker_area/smack_talker_viewport_container/smack_talker_viewport/smack_talker" method="_on_player_won"]
+[connection signal="tie" from="." to="smack_talker_area/smack_talker_viewport_container/smack_talker_viewport/smack_talker" method="_on_tie"]
+[connection signal="game_over" from="smack_talker_area/smack_talker_viewport_container/smack_talker_viewport/smack_talker" to="." method="_on_smack_talker_game_over"]
+[connection signal="game_over" from="smack_talker_area/smack_talker_viewport_container/smack_talker_viewport/smack_talker" to="smack_talker_area/smack_talker_output" method="_on_game_over"]
+[connection signal="move_made" from="smack_talker_area/smack_talker_viewport_container/smack_talker_viewport/smack_talker" to="." method="_on_move_made"]
+[connection signal="move_made" from="smack_talker_area/smack_talker_viewport_container/smack_talker_viewport/smack_talker" to="smack_talker_area/smack_talker_output" method="_on_move_made"]
+[connection signal="smack_talked" from="smack_talker_area/smack_talker_viewport_container/smack_talker_viewport/smack_talker" to="." method="_on_smack_talked"]
+[connection signal="smack_talked" from="smack_talker_area/smack_talker_viewport_container/smack_talker_viewport/smack_talker" to="smack_talker_area/smack_talker_output" method="_on_smack_talked"]
+[connection signal="cell_clicked" from="tictactoe_area/rows/row1/cell1_1" to="." method="_on_cell_clicked"]
+[connection signal="cell_clicked" from="tictactoe_area/rows/row1/cell1_2" to="." method="_on_cell_clicked"]
+[connection signal="cell_clicked" from="tictactoe_area/rows/row1/cell1_3" to="." method="_on_cell_clicked"]
+[connection signal="cell_clicked" from="tictactoe_area/rows/row2/cell2_1" to="." method="_on_cell_clicked"]
+[connection signal="cell_clicked" from="tictactoe_area/rows/row2/cell2_2" to="." method="_on_cell_clicked"]
+[connection signal="cell_clicked" from="tictactoe_area/rows/row2/cell2_3" to="." method="_on_cell_clicked"]
+[connection signal="cell_clicked" from="tictactoe_area/rows/row3/cell3_1" to="." method="_on_cell_clicked"]
+[connection signal="cell_clicked" from="tictactoe_area/rows/row3/cell3_2" to="." method="_on_cell_clicked"]
+[connection signal="cell_clicked" from="tictactoe_area/rows/row3/cell3_3" to="." method="_on_cell_clicked"]

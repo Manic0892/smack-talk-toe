@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://cxxwteohu4o1p"]
+
+[ext_resource type="Texture2D" uid="uid://cp6e05hc0idnv" path="res://images/programmer_art.png" id="1_edom7"]
+[ext_resource type="Script" path="res://scripts/smack-talker.gd" id="1_f51pr"]
+
+[node name="smack_talker" type="Node2D"]
+script = ExtResource("1_f51pr")
+
+[node name="smack_talker_image" type="Sprite2D" parent="."]
+texture = ExtResource("1_edom7")
+
+[node name="smack_talk_requests" type="HTTPRequest" parent="."]
+unique_name_in_owner = true
+
+[node name="move_description_requests" type="HTTPRequest" parent="."]
+unique_name_in_owner = true
+
+[node name="game_over_message_requests" type="HTTPRequest" parent="."]
+unique_name_in_owner = true
