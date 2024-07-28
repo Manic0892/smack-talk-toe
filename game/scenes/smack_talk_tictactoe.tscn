@@ -92,18 +92,21 @@ size_flags_vertical = 3
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 75
 script = ExtResource("2_cgk7j")
 
 [node name="cell1_2" type="Button" parent="tictactoe_area/rows/row1"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 75
 script = ExtResource("2_cgk7j")
 
 [node name="cell1_3" type="Button" parent="tictactoe_area/rows/row1"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 75
 script = ExtResource("2_cgk7j")
 
 [node name="row2" type="HBoxContainer" parent="tictactoe_area/rows"]
@@ -115,18 +118,21 @@ size_flags_vertical = 3
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 75
 script = ExtResource("2_cgk7j")
 
 [node name="cell2_2" type="Button" parent="tictactoe_area/rows/row2"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 75
 script = ExtResource("2_cgk7j")
 
 [node name="cell2_3" type="Button" parent="tictactoe_area/rows/row2"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 75
 script = ExtResource("2_cgk7j")
 
 [node name="row3" type="HBoxContainer" parent="tictactoe_area/rows"]
@@ -137,18 +143,21 @@ size_flags_vertical = 3
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 75
 script = ExtResource("2_cgk7j")
 
 [node name="cell3_2" type="Button" parent="tictactoe_area/rows/row3"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 75
 script = ExtResource("2_cgk7j")
 
 [node name="cell3_3" type="Button" parent="tictactoe_area/rows/row3"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 75
 script = ExtResource("2_cgk7j")
 
 [connection signal="opponent_selected_cell" from="." to="smack_talker_area/smack_talker_viewport_container/smack_talker_viewport/smack_talker" method="_on_opponent_selected_cell"]
