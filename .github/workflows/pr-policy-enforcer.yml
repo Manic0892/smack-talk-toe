@@ -1,0 +1,14 @@
+name: 'Enforce PR Policies'
+
+on:
+  pull_request:
+
+jobs:
+  check_branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check release branch
+        if: github.base_ref == 'release' && github.head_ref != 'main'
+        run: |
+          echo "ERROR: You can only merge to release from main."
+          exit 1

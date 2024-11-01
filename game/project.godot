@@ -10,10 +10,11 @@ config_version=5
 
 [application]
 
-config/name="Smack-talker"
+config/name="Smack-Talk-Toe"
+config/version="0.1.0"
 run/main_scene="res://scenes/smack_talk_tictactoe.tscn"
-config/features=PackedStringArray("4.2", "GL Compatibility")
-config/icon="res://images/icon.svg"
+config/features=PackedStringArray("4.3", "GL Compatibility")
+config/icon="res://images/programmer_art.png"
 
 [autoload]
 
@@ -27,3 +28,4 @@ window/stretch/mode="canvas_items"
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true

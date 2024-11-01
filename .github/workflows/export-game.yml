@@ -1,0 +1,83 @@
+name: Export Smack-Talk-Toe
+
+on:
+  push:
+    branches:
+      - main
+      - release
+  pull_request:
+  workflow_dispatch:
+
+env:
+  BUILD_NUMBER: ${{ github.run_number }}-${{ github.run_attempt }}
+  KEYSTORE_NAME: signing.keystore
+  GODOT_ANDROID_KEYSTORE_RELEASE_PATH: ${{ github.workspace }}/signing.keystore
+  GODOT_ANDROID_KEYSTORE_RELEASE_USER: ${{ secrets.ANDROID_KEYSTORE_USER }}
+  GODOT_ANDROID_KEYSTORE_RELEASE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+
+jobs:
+  export_game:
+    name: Export Game
+    # Always use ubuntu-latest for this action
+    runs-on: ubuntu-latest
+    # Add permission for release creation. Can be made narrower according to your needs
+    # permissions: write-all
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        lfs: true
+
+    - name: Install WINE
+      id: wine_install
+      run: |
+        sudo apt install wine64
+        echo "WINE_PATH=$(which wine64)" >> $GITHUB_OUTPUT
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Set up Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: Decode Android keystore
+      id: write_file
+      uses: timheuer/base64-to-file@v1.2
+      with:
+        fileName: ${{ env.KEYSTORE_NAME }}
+        fileDir: ${{ github.workspace }}
+        encodedString: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+
+    - name: Update build number
+      run: echo $BUILD_NUMBER > ./game/build_number.txt
+
+    - name: Export game
+      id: export
+      # Use latest version (see releases for all versions)
+      uses: firebelley/godot-export@v6.0.0
+      with:
+        # Defining all the required inputs
+        godot_executable_download_url: https://github.com/godotengine/godot-builds/releases/download/4.3-stable/Godot_v4.3-stable_linux.x86_64.zip
+        godot_export_templates_download_url: https://github.com/godotengine/godot-builds/releases/download/4.3-stable/Godot_v4.3-stable_export_templates.tpz
+        relative_project_path: ./game/
+        archive_output: true
+        wine_path: ${{ steps.wine_install.outputs.WINE_PATH }} # set the wine path here which is the output of the wine_install step
+
+    - name: Publish artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: smacktalktoe-${{ env.BUILD_NUMBER }}
+        path: ${{ steps.export.outputs.archive_directory }}/*
+
+    #   # This release action has worked well for me. However, you can most likely use any release action of your choosing.
+    #   # https://github.com/ncipollo/release-action
+    # - name: create release
+    #   uses: ncipollo/release-action@v1.14.0
+    #   with:
+    #     token: ${{ secrets.GITHUB_TOKEN }}
+    #     generateReleaseNotes: true
+    #     tag: ${{ github.ref_name }}
+    #     artifacts: ${{ steps.export.outputs.archive_directory }}/*

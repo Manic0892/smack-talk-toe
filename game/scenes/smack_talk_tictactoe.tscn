@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://ciwetwkx86x1q"]
+[gd_scene load_steps=8 format=3 uid="uid://ciwetwkx86x1q"]
 
 [ext_resource type="PackedScene" uid="uid://cxxwteohu4o1p" path="res://scenes/smack_talker.tscn" id="1_6bpdu"]
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_15d8u"]
 [ext_resource type="Script" path="res://scripts/cell.gd" id="2_cgk7j"]
 [ext_resource type="Script" path="res://scripts/restart_button.gd" id="2_ughhi"]
 [ext_resource type="Script" path="res://scripts/smack_talker_output.gd" id="3_8rerj"]
+[ext_resource type="Script" path="res://scripts/version_id_label.gd" id="6_lfmfm"]
+[ext_resource type="Script" path="res://scripts/info_area.gd" id="7_648vp"]
 
 [node name="smack_talk_tictactoe" type="Node"]
 script = ExtResource("1_15d8u")
@@ -170,6 +172,121 @@ size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 75
 script = ExtResource("2_cgk7j")
 
+[node name="info" type="Button" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -39.0
+offset_top = -31.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "info"
+
+[node name="info_area" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("7_648vp")
+
+[node name="background" type="ColorRect" parent="info_area"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.827451)
+
+[node name="close" type="Button" parent="info_area"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="info_layout" type="VBoxContainer" parent="info_area"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="smack_talk_toe_label" type="Label" parent="info_area/info_layout"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Smack-Talk-Toe"
+horizontal_alignment = 1
+
+[node name="tech_info_margin" type="MarginContainer" parent="info_area/info_layout"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_bottom = 25
+
+[node name="tech_info_layout" type="VBoxContainer" parent="info_area/info_layout/tech_info_margin"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="version_id_label" type="Label" parent="info_area/info_layout/tech_info_margin/tech_info_layout"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "v<version> b<build>"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("6_lfmfm")
+
+[node name="github_link" type="LinkButton" parent="info_area/info_layout/tech_info_margin/tech_info_layout"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 25
+text = "Source code on GitHub"
+uri = "https://github.com/Manic0892/smack-talk-toe"
+
+[node name="sean_mcgeer_label" type="Label" parent="info_area/info_layout"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Created by Sean McGeer"
+horizontal_alignment = 1
+
+[node name="sean_mcgeer_links_layout" type="HBoxContainer" parent="info_area/info_layout"]
+layout_mode = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="seanmcgeer_com_margin" type="MarginContainer" parent="info_area/info_layout/sean_mcgeer_links_layout"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_right = 5
+
+[node name="seanmcgeer_com_link" type="LinkButton" parent="info_area/info_layout/sean_mcgeer_links_layout/seanmcgeer_com_margin"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 25
+text = "seanmcgeer.com"
+uri = "https://seanmcgeer.com"
+
+[node name="linkedin_margin" type="MarginContainer" parent="info_area/info_layout/sean_mcgeer_links_layout"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_right = 5
+
+[node name="linkedin_link" type="LinkButton" parent="info_area/info_layout/sean_mcgeer_links_layout/linkedin_margin"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 25
+text = "LinkedIn"
+uri = "https://linkedin.com/in/seanmcgeer"
+
 [connection signal="opponent_selected_cell" from="." to="smack_talker_area/smack_talker_viewport_container/smack_talker_viewport/smack_talker" method="_on_opponent_selected_cell"]
 [connection signal="opponent_won" from="." to="smack_talker_area/smack_talker_viewport_container/smack_talker_viewport/smack_talker" method="_on_opponent_won"]
 [connection signal="player_selected_cell" from="." to="smack_talker_area/smack_talker_viewport_container/smack_talker_viewport/smack_talker" method="_on_player_selected_cell"]
@@ -190,3 +307,5 @@ script = ExtResource("2_cgk7j")
 [connection signal="cell_clicked" from="tictactoe_area/rows/row3/cell3_1" to="." method="_on_cell_clicked"]
 [connection signal="cell_clicked" from="tictactoe_area/rows/row3/cell3_2" to="." method="_on_cell_clicked"]
 [connection signal="cell_clicked" from="tictactoe_area/rows/row3/cell3_3" to="." method="_on_cell_clicked"]
+[connection signal="pressed" from="info" to="info_area" method="_on_info_pressed"]
+[connection signal="pressed" from="info_area/close" to="info_area" method="_on_close_pressed"]
