@@ -103,5 +103,3 @@ func is_player_winner(player: String):
 	if game_board[0][2] == player and game_board[1][1] == player and game_board[2][0] == player:
 		return true
 	return false
-
-
