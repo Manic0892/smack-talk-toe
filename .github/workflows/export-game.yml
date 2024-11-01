@@ -4,7 +4,11 @@ on:
   push:
     branches:
       - main
+    paths:
+      - game/**/*
   pull_request:
+    paths:
+      - game/**/*
   workflow_dispatch:
 
 env:
