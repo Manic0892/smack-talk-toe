@@ -76,7 +76,7 @@ script = ExtResource("3_8rerj")
 z_index = 100
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
-text = "Restart game"
+text = "restart game"
 script = ExtResource("2_ughhi")
 
 [node name="info" type="Button" parent="smack_talker_area/sidebar_layout"]
