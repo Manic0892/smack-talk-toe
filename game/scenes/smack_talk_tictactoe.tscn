@@ -22,55 +22,68 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="background" type="ColorRect" parent="smack_talker_area"]
+z_index = -1000
 layout_mode = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="restart_button" type="Button" parent="smack_talker_area"]
+[node name="sidebar_layout" type="VBoxContainer" parent="smack_talker_area"]
 layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 0.06
-text = "Restart game"
-script = ExtResource("2_ughhi")
-
-[node name="smack_talker_viewport_container" type="SubViewportContainer" parent="smack_talker_area"]
-clip_contents = true
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.06
-anchor_right = 1.0
-anchor_bottom = 0.75
-grow_horizontal = 2
-grow_vertical = 2
-stretch = true
-
-[node name="smack_talker_viewport" type="SubViewport" parent="smack_talker_area/smack_talker_viewport_container"]
-transparent_bg = true
-handle_input_locally = false
-size = Vector2i(403, 447)
-render_target_update_mode = 4
-
-[node name="smack_talker" parent="smack_talker_area/smack_talker_viewport_container/smack_talker_viewport" instance=ExtResource("1_6bpdu")]
-position = Vector2(200, 250)
-scale = Vector2(0.35, 0.35)
-
-[node name="smack_talker_output" type="Label" parent="smack_talker_area"]
-modulate = Color(0, 0, 0, 1)
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.75
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="smack_talker_control" type="Control" parent="smack_talker_area/sidebar_layout"]
+z_index = 100
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="smack_talker" parent="smack_talker_area/sidebar_layout/smack_talker_control" instance=ExtResource("1_6bpdu")]
+z_index = -20
+position = Vector2(191.2, 432)
+scale = Vector2(0.313478, 0.313478)
+
+[node name="smack_talker_output_margin" type="MarginContainer" parent="smack_talker_area/sidebar_layout/smack_talker_control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="smack_talker_output_label" type="Label" parent="smack_talker_area/sidebar_layout/smack_talker_control/smack_talker_output_margin"]
+modulate = Color(0, 0, 0, 1)
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 24
 horizontal_alignment = 1
-vertical_alignment = 1
 autowrap_mode = 3
 clip_text = true
 script = ExtResource("3_8rerj")
+
+[node name="restart_button" type="Button" parent="smack_talker_area/sidebar_layout"]
+z_index = 100
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "restart game"
+script = ExtResource("2_ughhi")
+
+[node name="info" type="Button" parent="smack_talker_area/sidebar_layout"]
+z_index = 100
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "info"
 
 [node name="tictactoe_area" type="Control" parent="."]
 layout_mode = 3
@@ -172,20 +185,9 @@ size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 75
 script = ExtResource("2_cgk7j")
 
-[node name="info" type="Button" parent="."]
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -39.0
-offset_top = -31.0
-grow_horizontal = 0
-grow_vertical = 0
-text = "info"
-
 [node name="info_area" type="Control" parent="."]
 visible = false
+z_index = 1000
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -287,17 +289,18 @@ theme_override_font_sizes/font_size = 25
 text = "LinkedIn"
 uri = "https://linkedin.com/in/seanmcgeer"
 
-[connection signal="opponent_selected_cell" from="." to="smack_talker_area/smack_talker_viewport_container/smack_talker_viewport/smack_talker" method="_on_opponent_selected_cell"]
-[connection signal="opponent_won" from="." to="smack_talker_area/smack_talker_viewport_container/smack_talker_viewport/smack_talker" method="_on_opponent_won"]
-[connection signal="player_selected_cell" from="." to="smack_talker_area/smack_talker_viewport_container/smack_talker_viewport/smack_talker" method="_on_player_selected_cell"]
-[connection signal="player_won" from="." to="smack_talker_area/smack_talker_viewport_container/smack_talker_viewport/smack_talker" method="_on_player_won"]
-[connection signal="tie" from="." to="smack_talker_area/smack_talker_viewport_container/smack_talker_viewport/smack_talker" method="_on_tie"]
-[connection signal="game_over" from="smack_talker_area/smack_talker_viewport_container/smack_talker_viewport/smack_talker" to="." method="_on_smack_talker_game_over"]
-[connection signal="game_over" from="smack_talker_area/smack_talker_viewport_container/smack_talker_viewport/smack_talker" to="smack_talker_area/smack_talker_output" method="_on_game_over"]
-[connection signal="move_made" from="smack_talker_area/smack_talker_viewport_container/smack_talker_viewport/smack_talker" to="." method="_on_move_made"]
-[connection signal="move_made" from="smack_talker_area/smack_talker_viewport_container/smack_talker_viewport/smack_talker" to="smack_talker_area/smack_talker_output" method="_on_move_made"]
-[connection signal="smack_talked" from="smack_talker_area/smack_talker_viewport_container/smack_talker_viewport/smack_talker" to="." method="_on_smack_talked"]
-[connection signal="smack_talked" from="smack_talker_area/smack_talker_viewport_container/smack_talker_viewport/smack_talker" to="smack_talker_area/smack_talker_output" method="_on_smack_talked"]
+[connection signal="opponent_selected_cell" from="." to="smack_talker_area/sidebar_layout/smack_talker_control/smack_talker" method="_on_opponent_selected_cell"]
+[connection signal="opponent_won" from="." to="smack_talker_area/sidebar_layout/smack_talker_control/smack_talker" method="_on_opponent_won"]
+[connection signal="player_selected_cell" from="." to="smack_talker_area/sidebar_layout/smack_talker_control/smack_talker" method="_on_player_selected_cell"]
+[connection signal="player_won" from="." to="smack_talker_area/sidebar_layout/smack_talker_control/smack_talker" method="_on_player_won"]
+[connection signal="tie" from="." to="smack_talker_area/sidebar_layout/smack_talker_control/smack_talker" method="_on_tie"]
+[connection signal="game_over" from="smack_talker_area/sidebar_layout/smack_talker_control/smack_talker" to="." method="_on_smack_talker_game_over"]
+[connection signal="game_over" from="smack_talker_area/sidebar_layout/smack_talker_control/smack_talker" to="smack_talker_area/sidebar_layout/smack_talker_control/smack_talker_output_margin/smack_talker_output_label" method="_on_game_over"]
+[connection signal="move_made" from="smack_talker_area/sidebar_layout/smack_talker_control/smack_talker" to="." method="_on_move_made"]
+[connection signal="move_made" from="smack_talker_area/sidebar_layout/smack_talker_control/smack_talker" to="smack_talker_area/sidebar_layout/smack_talker_control/smack_talker_output_margin/smack_talker_output_label" method="_on_move_made"]
+[connection signal="smack_talked" from="smack_talker_area/sidebar_layout/smack_talker_control/smack_talker" to="." method="_on_smack_talked"]
+[connection signal="smack_talked" from="smack_talker_area/sidebar_layout/smack_talker_control/smack_talker" to="smack_talker_area/sidebar_layout/smack_talker_control/smack_talker_output_margin/smack_talker_output_label" method="_on_smack_talked"]
+[connection signal="pressed" from="smack_talker_area/sidebar_layout/info" to="info_area" method="_on_info_pressed"]
 [connection signal="cell_clicked" from="tictactoe_area/rows/row1/cell1_1" to="." method="_on_cell_clicked"]
 [connection signal="cell_clicked" from="tictactoe_area/rows/row1/cell1_2" to="." method="_on_cell_clicked"]
 [connection signal="cell_clicked" from="tictactoe_area/rows/row1/cell1_3" to="." method="_on_cell_clicked"]
@@ -307,5 +310,4 @@ uri = "https://linkedin.com/in/seanmcgeer"
 [connection signal="cell_clicked" from="tictactoe_area/rows/row3/cell3_1" to="." method="_on_cell_clicked"]
 [connection signal="cell_clicked" from="tictactoe_area/rows/row3/cell3_2" to="." method="_on_cell_clicked"]
 [connection signal="cell_clicked" from="tictactoe_area/rows/row3/cell3_3" to="." method="_on_cell_clicked"]
-[connection signal="pressed" from="info" to="info_area" method="_on_info_pressed"]
 [connection signal="pressed" from="info_area/close" to="info_area" method="_on_close_pressed"]
